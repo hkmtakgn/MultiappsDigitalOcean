@@ -18,8 +18,6 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS","127.0.0.1,localhost").split(",
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-MEDIA_URL = "media/"
-MEDIA_ROOT = "media_files"
 
 # Application definition
 
@@ -34,6 +32,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "securityControl",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -121,3 +120,28 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# MEDIAFILES_SETTINGS
+
+DJANGO_SECRET_ACCESS_KEY = os.getenv("DJANGO_SECRET_ACCESS_KEY")
+DJANGO_ACCESS_KEY = os.getenv("DJANGO_ACCESS_KEY")
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_ACCESS_KEY_ID=DJANGO_ACCESS_KEY
+
+AWS_SECRET_ACCESS_KEY=DJANGO_SECRET_ACCESS_KEY
+
+AWS_STORAGE_BUCKET_NAME = 'multiappsbucket'
+
+AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_LOCATION = "multiapps_mediafiles"
+
+MEDIA_ROOT = BASE_DIR / "mediafiles"
+MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/"
+
