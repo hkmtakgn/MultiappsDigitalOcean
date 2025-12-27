@@ -8,7 +8,7 @@ class BaseModel(models.Model):
     title = models.CharField(max_length=100, blank=False, null=False)
     slug = AutoSlugField(populate_from="title")
     content = models.TextField(blank=True, null=True)
-    img = models.ImageField(upload_to="page_img/")
+    img = models.FileField(upload_to="page_img/")
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -38,4 +38,4 @@ class FavPost(models.Model):
 
 
 class PageLogo(models.Model):
-    img = models.ImageField(upload_to="page_logo/")
+    img = models.FileField(upload_to="page_logo/")
